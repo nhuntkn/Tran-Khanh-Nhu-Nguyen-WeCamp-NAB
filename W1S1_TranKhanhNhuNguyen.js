@@ -11,6 +11,11 @@ function calculateCart(itemPrice, quantity, isMember) {
         throw new Error("isMember must be a boolean value");
     }
 
+    const subTotal = itemPrice * quantity;
+
+    //Discount 20% for members
+    const discount = isMember ? subTotal * 0.2 : 0;
+
 }
 
 //function to calculate the cart price if all the items have different prices
@@ -40,5 +45,9 @@ function calculateCartDiffPrice(items, isMember) {
 
         subTotal += price * quantity;
     });
+
+    //Discount 20% for members
+    const discount = isMember ? subTotal * 0.2 : 0;
+
 
 }
