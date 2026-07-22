@@ -16,6 +16,13 @@ function calculateCart(itemPrice, quantity, isMember) {
     //Discount 20% for members
     const discount = isMember ? subTotal * 0.2 : 0;
 
+    //Tax 8% for all customers
+    const TAX = 0.08;
+    const afterDiscount = subTotal - discount;
+    const tax = afterDiscount * TAX;
+
+    const finalPrice = afterDiscount + tax;
+    return {finalPrice: finalPrice.toFixed(2)};
 }
 
 //function to calculate the cart price if all the items have different prices
@@ -49,5 +56,46 @@ function calculateCartDiffPrice(items, isMember) {
     //Discount 20% for members
     const discount = isMember ? subTotal * 0.2 : 0;
 
+    //Tax 8% for all customers
+    const TAX = 0.08;
+    const afterDiscount = subTotal - discount;
+    const tax = afterDiscount * TAX;
 
+    const finalPrice = afterDiscount + tax;
+    return {
+        subtotal: subTotal.toFixed(2),
+        discount: discount.toFixed(2),
+        tax: tax.toFixed(2),
+        total: finalPrice.toFixed(2)
+    }
+}
+
+//Test Scenarios
+
+//1. Member with multiple different items
+const cart1 = [
+    {name: "Apple", price: 1.5, quantity: 4},
+    {name: "Banana", price: 1.0, quantity: 2},
+    {name: "Orange", price: 2.0, quantity: 3}
+];
+
+console.log("Test 1 (member, mixed cart):", calculateCartDiffPrice(cart1, true));
+
+//2. Non-member with multiple units for a single item
+const cart2 = [
+    {name: "Milk", price: 4.0, quantity: 5}
+];
+
+console.log("Test 2 (non-member, single item):", calculateCartDiffPrice(cart2, false));
+
+//3. Invalid item in the array (negative price)
+const cart3 = [
+    {name: "Milk", price: 4.0, quantity: 5},
+    {name: "Hat", price: -10.0, quantity: 1}
+];
+
+try {
+  calculateCartDiffPrice(cart3, true); // itemPrice passed as string, not number
+} catch (err) {
+  console.log("Test 3 (invalid input):", err.message);
 }
