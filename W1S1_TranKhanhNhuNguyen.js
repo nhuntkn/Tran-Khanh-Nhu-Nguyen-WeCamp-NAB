@@ -1,31 +1,4 @@
-//function to calculate the cart price if all the items have the same price
-function calculateCart(itemPrice, quantity, isMember) {
-    //Typed input validation
-    if (typeof itemPrice !== 'number' || itemPrice < 0 || isNaN(itemPrice)) {
-        throw new Error("itemPrice must be a non-negative number");
-    }
-    if (typeof quantity !== 'number' || quantity <= 0 || isNaN(quantity)) {
-        throw new Error("quantity must be a positive number");
-    }
-    if (typeof isMember !== 'boolean') {
-        throw new Error("isMember must be a boolean value");
-    }
-
-    const subTotal = itemPrice * quantity;
-
-    //Discount 20% for members
-    const discount = isMember ? subTotal * 0.2 : 0;
-
-    //Tax 8% for all customers
-    const TAX = 0.08;
-    const afterDiscount = subTotal - discount;
-    const tax = afterDiscount * TAX;
-
-    const finalPrice = afterDiscount + tax;
-    return {finalPrice: finalPrice.toFixed(2)};
-}
-
-//function to calculate the cart price if all the items have different prices
+//function to calculate the cart price if items have different prices
 function calculateCartDiffPrice(items, isMember) {
     //Typed input validation
     if (!Array.isArray(items) || items.length === 0) {
@@ -95,7 +68,8 @@ const cart3 = [
 ];
 
 try {
-  calculateCartDiffPrice(cart3, true); // itemPrice passed as string, not number
+  calculateCartDiffPrice(cart3, true);
 } catch (err) {
   console.log("Test 3 (invalid input):", err.message);
 }
+
